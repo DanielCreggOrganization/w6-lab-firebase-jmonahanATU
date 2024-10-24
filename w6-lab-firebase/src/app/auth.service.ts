@@ -65,8 +65,15 @@ export class AuthService {
    * Signs out the current user
    * @returns Promise resolving when sign out is complete
    */
+
+  async sendPasswordResetEmail(userEmail: string): Promise<void> {
+    return sendPasswordResetEmail(this.firebaseAuth, userEmail);
+  }
+  
   async signOutUser(): Promise<void> {
     return signOut(this.firebaseAuth);
   }
+
+  
   constructor() { }
 }
