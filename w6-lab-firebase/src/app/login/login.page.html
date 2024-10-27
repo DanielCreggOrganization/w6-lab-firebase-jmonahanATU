@@ -1,26 +1,49 @@
-<!-- src/app/login/login.page.html -->
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <div class="login-container">
+    <form [formGroup]="userAuthForm">
+      <!-- Email Input -->
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="email" placeholder="Enter your email"></ion-input>
+      </ion-item>
+      <ion-text *ngIf="emailControl.errors?.['required'] && emailControl.touched" color="danger">
+        <p>Email is required.</p>
+      </ion-text>
+      <ion-text *ngIf="emailControl.errors?.['email'] && emailControl.touched" color="danger">
+        <p>Please enter a valid email address.</p>
+      </ion-text>
 
-<ion-content [fullscreen]="true">
-  <form [formGroup]="userAuthForm" (ngSubmit)="handleAuthentication()">
-    <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" formControlName="email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input [type]="isPasswordVisible ? 'text' : 'password'" formControlName="password"></ion-input>
-      <ion-button slot="end" (click)="isPasswordVisible = !isPasswordVisible">
-        <ion-icon [name]="isPasswordVisible ? 'eye-off' : 'eye'"></ion-icon>
+      <!-- Password Input -->
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input
+          [type]="isPasswordVisible ? 'text' : 'password'"
+          formControlName="password"
+          placeholder="Enter your password"
+        ></ion-input>
+        <ion-icon
+          slot="end"
+          (click)="isPasswordVisible = !isPasswordVisible"
+          [name]="isPasswordVisible ? 'eye-off' : 'eye'"
+        ></ion-icon>
+      </ion-item>
+      <ion-text *ngIf="passwordControl.errors?.['required'] && passwordControl.touched" color="danger">
+        <p>Password is required.</p>
+      </ion-text>
+      <ion-text *ngIf="passwordControl.errors?.['minlength'] && passwordControl.touched" color="danger">
+        <p>Password must be at least 6 characters.</p>
+      </ion-text>
+
+      <!-- Sign In Button -->
+      <ion-button expand="block" (click)="handleAuthentication()" [disabled]="userAuthForm.invalid">
+        Sign In
       </ion-button>
-    </ion-item>
-    <ion-button expand="full" type="submit">Login</ion-button>
-  </form>
 
-  <ion-button expand="full" (click)="handleRegistration()">Create Account</ion-button>
-  <ion-button expand="full" (click)="handlePasswordReset()">Forgot Password?</ion-button>
+      <!-- Forgot Password Button -->
+      <ion-button expand="block" color="light" (click)="handlePasswordReset()">Forgot Password?</ion-button>
+
+      <!-- Create Account Button -->
+      <ion-button expand="block" color="secondary" (click)="handleRegistration()">Create Account</ion-button>
+    </form>
+  </div>
 </ion-content>

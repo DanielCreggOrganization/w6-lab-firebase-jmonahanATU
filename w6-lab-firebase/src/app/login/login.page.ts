@@ -86,23 +86,22 @@ export class LoginPage implements OnInit {
    */
   async handlePasswordReset() {
     const email = this.userAuthForm.value.email;
-    
-    // Check if email is valid
+
     if (!this.emailControl.valid || !email) {
       await this.showAlert('Invalid Email', 'Please enter a valid email address.');
       return;
     }
-  
+
     const loading = await this.loadingController.create({
       message: 'Sending password reset email...'
     });
     await loading.present();
-  
+
     try {
       await this.authService.sendPasswordResetEmail(email);
       await this.showAlert('Success', 'Password reset email sent. Please check your inbox.');
     } catch (error) {
-      const errorMessage = (error as FirebaseError).message;
+      const errorMessage = this.getFirebaseErrorMessage(error);
       await this.showAlert('Password Reset Failed', errorMessage);
     } finally {
       await loading.dismiss();
@@ -123,6 +122,13 @@ export class LoginPage implements OnInit {
     });
     await alert.present();
   }
+
+    /**
+   * Extracts the message from a FirebaseError
+   */
+    private getFirebaseErrorMessage(error: unknown): string {
+      return (error as FirebaseError).message ?? 'An unknown error occurred';
+    }
 
 
   constructor() { }
