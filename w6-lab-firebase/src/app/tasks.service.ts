@@ -60,9 +60,16 @@ export class TasksService {
    */
   async createTask(task: Task) {
     try {
+      const currentUser = this.authService.currentUser;
+      
+      if (!currentUser) {
+        throw new Error('User not authenticated');
+      }
+  
+      // Add the task with the authenticated user's ID
       return await addDoc(this.tasksCollectionRef, {
         ...task,
-        user: this.authService.currentUser?.uid,
+        user: currentUser.uid,
       });
     } catch (error) {
       console.error('Error creating task:', error);
