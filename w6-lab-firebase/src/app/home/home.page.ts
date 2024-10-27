@@ -83,7 +83,8 @@ export class HomePage implements AfterViewInit {
   ngOnInit() {
     this.resetTask();
     addIcons({ logOutOutline, pencilOutline, trashOutline, add });
-    this.tasks$ = this.tasksService.readTasks();
+    this.tasks$ = this.tasksService.getUserTasks();
+
   }
 
   // This method is used to reset the newTask property. This will clear the input in the modal.

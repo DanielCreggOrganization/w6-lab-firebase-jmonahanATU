@@ -74,6 +74,11 @@ export class AuthService {
     return signOut(this.firebaseAuth);
   }
 
+  // Add logout method
+  async logout(): Promise<void> {
+    return signOut(this.firebaseAuth);
+  }
+
   
   constructor() { }
 }
