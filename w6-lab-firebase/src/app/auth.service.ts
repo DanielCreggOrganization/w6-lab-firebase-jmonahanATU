@@ -35,6 +35,10 @@ export class AuthService {
     );
   }
 
+  isLoggedIn(): boolean {
+    return !!this.firebaseAuth.currentUser;
+  }
+
   /**
    * Authenticates a user with email and password
    * @param userAuthData - The user's email and password
